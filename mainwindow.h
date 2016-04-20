@@ -12,6 +12,8 @@
 #include "opencv2/imgproc.hpp"
 #include "opencv2/imgcodecs.hpp"
 
+#include "dummyrtsp.h"
+
 namespace Ui {
 class MainWindow;
 }
@@ -24,6 +26,9 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+public slots:
+    void drawImage(cv::Mat image);
+
 private:
     cv::Mat QImageToCvMat(const QImage &inImage, bool inCloneImageData = true);
     cv::Mat QPixmapToCvMat(const QPixmap &inPixmap, bool inCloneImageData = true);
@@ -32,6 +37,8 @@ private:
 
 private:
     Ui::MainWindow *ui;
+
+    DummyRTSP *rtsp;
 };
 
 #endif // MAINWINDOW_H

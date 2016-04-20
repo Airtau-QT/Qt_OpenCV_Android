@@ -7,33 +7,46 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // load qimage
-    QImage image(":/res/pic.jpg");
+//    // load qimage
+//    QImage image(":/res/pic.jpg");
 
-    // create mat and convert qimage to mat
-    cv::Mat tempMat = QImageToCvMat(image);
+//    // create mat and convert qimage to mat
+//    cv::Mat tempMat = QImageToCvMat(image);
 
-    // create grayscale mat
-    cv::Mat grayMat(tempMat.size(), CV_8U);
+//    // create grayscale mat
+//    cv::Mat grayMat(tempMat.size(), CV_8U);
 
-    // convert color space
-    cv::cvtColor(tempMat, grayMat, CV_BGR2GRAY);
+//    // convert color space
+//    cv::cvtColor(tempMat, grayMat, CV_BGR2GRAY);
 
-    // create binary mat
-    cv::Mat binaryMat(grayMat.size(), grayMat.type());
+//    // create binary mat
+//    cv::Mat binaryMat(grayMat.size(), grayMat.type());
 
-    // thresholding
-    cv::threshold(grayMat, binaryMat, 100, 255, cv::THRESH_BINARY);
+//    // thresholding
+//    cv::threshold(grayMat, binaryMat, 100, 255, cv::THRESH_BINARY);
 
-    // convert mat to qpixmap
-    QPixmap result = cvMatToQPixmap(binaryMat);
+//    // convert mat to qpixmap
+//    QPixmap result = cvMatToQPixmap(binaryMat);
 
-    ui->label->setPixmap(result);
+//    ui->label->setPixmap(result);
+
+    rtsp = new DummyRTSP(this);
+    connect(rtsp, &DummyRTSP::readyImage, this, &MainWindow::drawImage);
+
+    rtsp->start();
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::drawImage(cv::Mat image)
+{
+    // convert mat to qpixmap
+    QPixmap result = cvMatToQPixmap(image);
+
+    ui->label->setPixmap(result);
 }
 
 cv::Mat MainWindow::QImageToCvMat(const QImage &inImage, bool inCloneImageData)

@@ -13,9 +13,11 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    dummyrtsp.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    dummyrtsp.h
 
 FORMS    += mainwindow.ui
 
